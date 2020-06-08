@@ -3,13 +3,14 @@ package me.blazingtide.zetsu;
 import com.google.common.collect.Maps;
 import lombok.Getter;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
-import me.blazingtide.zetsu.adapters.defaults.StringTypeAdapter;
+import me.blazingtide.zetsu.adapters.defaults.*;
 import me.blazingtide.zetsu.processor.bukkit.BukkitCommand;
 import me.blazingtide.zetsu.processor.impl.SpigotProcessor;
 import me.blazingtide.zetsu.schema.CachedCommand;
 import me.blazingtide.zetsu.schema.annotations.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,6 +39,10 @@ public class Zetsu {
         this.plugin = plugin;
 
         registerParameterAdapter(String.class, new StringTypeAdapter());
+        registerParameterAdapter(Player.class, new PlayerTypeAdapter());
+        registerParameterAdapter(Integer.class, new IntegerTypeAdapter());
+        registerParameterAdapter(Double.class, new DoubleTypeAdapter());
+        registerParameterAdapter(Boolean.class, new BooleanTypeAdapter());
     }
 
     public void registerCommands(Object... objects) {
