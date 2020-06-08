@@ -65,7 +65,7 @@ public class CommandProcessor {
                 return;
             }
 
-            if ((method.getParameterCount() - 1) != args.length) {
+            if ((method.getParameterCount() - 1) < args.length) {
                 sendRequiredArgsMessage(sender, method, command.getArgs(), command.getLabel());
                 return;
             }
