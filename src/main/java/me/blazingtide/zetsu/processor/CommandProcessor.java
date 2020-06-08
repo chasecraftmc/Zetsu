@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CommandProcessor {
 
-    private final Zetsu zetsu;
+    protected final Zetsu zetsu;
 
     public CachedCommand find(String label, String[] args) {
         final List<CachedCommand> cmds = zetsu.getLabelMap().get(label); //idk never should be null.
@@ -93,7 +93,7 @@ public class CommandProcessor {
                 }
 
                 try {
-                    objects[i + 1] = strBuilder.length() != 0 ? strBuilder.toString() : adapter.process(args[i]);
+                    objects[i + 1] = strBuilder.length() != 0 ? strBuilder.toString().trim() : adapter.process(args[i].trim());
                 } catch (Exception e) {
                     adapter.processException(sender, args[i], e);
                     return;
