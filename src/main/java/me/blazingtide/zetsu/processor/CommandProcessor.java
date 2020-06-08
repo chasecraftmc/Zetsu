@@ -87,7 +87,6 @@ public class CommandProcessor {
 
                 final ParameterAdapter<?> adapter = zetsu.getParameterAdapters().get(parameter.getType());
 
-                sender.sendMessage(i + " <-> " + (method.getParameterCount()) + " <-> " + parameter.getType());
                 if (parameter.getType() == String.class && i == method.getParameterCount() - 1) {
                     for (int j = i; j < args.length; j++) {
                         strBuilder.append(" ").append(args[j]);
