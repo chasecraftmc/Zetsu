@@ -2,13 +2,12 @@ package me.blazingtide.zetsu;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.blazingtide.zetsu.command.CachedCommand;
-import me.blazingtide.zetsu.command.adapters.ParameterAdapter;
-import me.blazingtide.zetsu.command.processor.bukkit.BukkitCommand;
-import me.blazingtide.zetsu.command.processor.impl.SpigotProcessor;
-import me.blazingtide.zetsu.command.schema.Command;
+import me.blazingtide.zetsu.schema.CachedCommand;
+import me.blazingtide.zetsu.adapters.ParameterAdapter;
+import me.blazingtide.zetsu.processor.bukkit.BukkitCommand;
+import me.blazingtide.zetsu.processor.impl.SpigotProcessor;
+import me.blazingtide.zetsu.schema.annotations.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.PluginManager;
@@ -22,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 @Getter
-@AllArgsConstructor
 public class Zetsu {
 
     public static String CMD_SPLITTER = " "; //Splitter for commands / arguments
@@ -32,10 +30,13 @@ public class Zetsu {
     private final Map<String, List<CachedCommand>> labelMap = Maps.newHashMap();
     private final Map<Class<?>, ParameterAdapter<?>> parameterAdapters = Maps.newConcurrentMap(); //Multithreading :D
     private final SpigotProcessor processor = new SpigotProcessor(this);
+    private CommandMap commandMap = getCommandMap();
 
     private final JavaPlugin plugin;
 
-    private CommandMap commandMap = getCommandMap();
+    public Zetsu(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     public void registerCommands(Object... objects) {
         for (Object object : objects) {

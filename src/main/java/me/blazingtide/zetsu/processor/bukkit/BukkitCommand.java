@@ -1,6 +1,6 @@
-package me.blazingtide.zetsu.command.processor.bukkit;
+package me.blazingtide.zetsu.processor.bukkit;
 
-import me.blazingtide.zetsu.command.processor.impl.SpigotProcessor;
+import me.blazingtide.zetsu.processor.impl.SpigotProcessor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 

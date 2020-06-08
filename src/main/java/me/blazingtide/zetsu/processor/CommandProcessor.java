@@ -1,10 +1,10 @@
-package me.blazingtide.zetsu.command.processor;
+package me.blazingtide.zetsu.processor;
 
 import lombok.AllArgsConstructor;
 import me.blazingtide.zetsu.Zetsu;
-import me.blazingtide.zetsu.command.CachedCommand;
-import me.blazingtide.zetsu.command.adapters.ParameterAdapter;
-import me.blazingtide.zetsu.command.schema.Permissible;
+import me.blazingtide.zetsu.schema.CachedCommand;
+import me.blazingtide.zetsu.adapters.ParameterAdapter;
+import me.blazingtide.zetsu.schema.annotations.Permissible;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

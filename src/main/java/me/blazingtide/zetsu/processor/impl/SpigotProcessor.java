@@ -1,8 +1,8 @@
-package me.blazingtide.zetsu.command.processor.impl;
+package me.blazingtide.zetsu.processor.impl;
 
 import me.blazingtide.zetsu.Zetsu;
-import me.blazingtide.zetsu.command.CachedCommand;
-import me.blazingtide.zetsu.command.processor.CommandProcessor;
+import me.blazingtide.zetsu.schema.CachedCommand;
+import me.blazingtide.zetsu.processor.CommandProcessor;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

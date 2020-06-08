@@ -1,4 +1,4 @@
-package me.blazingtide.zetsu.command.adapters;
+package me.blazingtide.zetsu.adapters;
 
 import org.bukkit.command.CommandSender;
 
