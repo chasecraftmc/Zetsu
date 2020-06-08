@@ -74,7 +74,7 @@ public class CommandProcessor {
 
             StringBuilder strBuilder = new StringBuilder(); //If the parameter is a string and is the last param in the method then we concat the arguments.
             for (int i = 0; i < args.length; i++) {
-                if ((method.getParameterCount()) <= (i + 1)) {
+                if (method.getParameterCount() <= i + 1) {
                     continue;
                 }
 
@@ -87,7 +87,8 @@ public class CommandProcessor {
 
                 final ParameterAdapter<?> adapter = zetsu.getParameterAdapters().get(parameter.getType());
 
-                if (parameter.getType() == String.class && i == method.getParameterCount() - 1) {
+                System.out.println("param method: " + (method.getParameterCount() - 1) + " <-> i: " + (i + 1));
+                if (parameter.getType() == String.class && method.getParameterCount() - 1 == i + 1) {
                     for (int j = i; j < args.length; j++) {
                         strBuilder.append(" ").append(args[j]);
                     }
