@@ -35,4 +35,15 @@ public class CachedCommand {
         return commands;
     }
 
+    @Override
+    public String toString() {
+        return "CachedCommand{" +
+                "label='" + label + '\'' +
+                ", args=" + args +
+                ", description='" + description + '\'' +
+                ", async=" + async +
+                ", method=" + method +
+                ", object=" + object +
+                '}';
+    }
 }

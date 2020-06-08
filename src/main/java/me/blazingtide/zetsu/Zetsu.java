@@ -1,12 +1,11 @@
 package me.blazingtide.zetsu;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import lombok.Getter;
-import me.blazingtide.zetsu.schema.CachedCommand;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
 import me.blazingtide.zetsu.processor.bukkit.BukkitCommand;
 import me.blazingtide.zetsu.processor.impl.SpigotProcessor;
+import me.blazingtide.zetsu.schema.CachedCommand;
 import me.blazingtide.zetsu.schema.annotations.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
@@ -19,14 +18,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Getter
 public class Zetsu {
 
     public static String CMD_SPLITTER = " "; //Splitter for commands / arguments
 
-    private final Set<CachedCommand> commands = Sets.newConcurrentHashSet();
     //Storing labels && commands associated with the label is faster than looping through all of the labels for no reason.
     private final Map<String, List<CachedCommand>> labelMap = Maps.newHashMap();
     private final Map<Class<?>, ParameterAdapter<?>> parameterAdapters = Maps.newConcurrentMap(); //Multithreading :D
@@ -73,8 +70,6 @@ public class Zetsu {
 
                 labelMap.putIfAbsent(command.getLabel(), new ArrayList<>());
                 labelMap.get(command.getLabel()).addAll(commands);
-
-                this.commands.addAll(commands);
             }
         }
     }

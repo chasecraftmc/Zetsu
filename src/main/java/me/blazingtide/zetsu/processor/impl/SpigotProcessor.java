@@ -17,7 +17,7 @@ public class SpigotProcessor extends CommandProcessor implements CommandExecutor
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        final CachedCommand found = this.find(label, args, sender);
+        final CachedCommand found = this.find(label, args);
 
         if (found == null) {
             sender.sendMessage(ChatColor.RED + "Library Error. (Command not found)");

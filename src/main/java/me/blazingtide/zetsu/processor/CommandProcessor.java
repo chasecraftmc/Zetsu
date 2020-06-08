@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import me.blazingtide.zetsu.Zetsu;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
 import me.blazingtide.zetsu.schema.CachedCommand;
-import me.blazingtide.zetsu.schema.annotations.Command;
 import me.blazingtide.zetsu.schema.annotations.Param;
 import me.blazingtide.zetsu.schema.annotations.Permissible;
 import org.bukkit.Bukkit;
@@ -22,19 +21,19 @@ public class CommandProcessor {
 
     private final Zetsu zetsu;
 
-    public CachedCommand find(String label, String[] args, CommandSender sender) {
-        final List<CachedCommand> cmds = zetsu.getLabelMap().getOrDefault(label, null);
+    public CachedCommand find(String label, String[] args) {
+        final List<CachedCommand> cmds = zetsu.getLabelMap().get(label); //idk never should be null.
 
         Finder:
         for (CachedCommand cmd : cmds) {
             int paramCount = cmd.getMethod().getParameterCount();
 
-            for (int i = 0; i < Math.min(args.length - paramCount, 0); i++) {
+            System.out.println(paramCount - args.length);
+            for (int i = 0; i < Math.min(paramCount - args.length, 0); i++) {
                 if (!cmd.getArgs().get(i).equalsIgnoreCase(args[i])) {
                     continue Finder;
                 }
             }
-
             return cmd;
         }
 
