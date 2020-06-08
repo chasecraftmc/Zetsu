@@ -3,6 +3,7 @@ package me.blazingtide.zetsu;
 import com.google.common.collect.Maps;
 import lombok.Getter;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
+import me.blazingtide.zetsu.adapters.defaults.StringTypeAdapter;
 import me.blazingtide.zetsu.processor.bukkit.BukkitCommand;
 import me.blazingtide.zetsu.processor.impl.SpigotProcessor;
 import me.blazingtide.zetsu.schema.CachedCommand;
@@ -34,6 +35,8 @@ public class Zetsu {
 
     public Zetsu(JavaPlugin plugin) {
         this.plugin = plugin;
+
+        registerParameterAdapter(String.class, new StringTypeAdapter());
     }
 
     public void registerCommands(Object... objects) {

@@ -24,16 +24,11 @@ public class SpigotProcessor extends CommandProcessor implements CommandExecutor
             return false;
         }
 
-        //Just remove all of the subcommand stuff
-        String[] newArgs = new String[]{};
-
-        for (int i = 0; i < args.length; i++) {
-            if (found.getArgs().size() < i) {
-                newArgs = (String[]) ArrayUtils.add(newArgs, args[i]);
-            }
+        for (int i = 0; i < found.getArgs().size(); i++) {
+            args = (String[]) ArrayUtils.remove(args, i);
         }
 
-        this.invoke(found, newArgs, sender);
+        this.invoke(found, args, sender);
         return false;
     }
 }
