@@ -74,7 +74,7 @@ public class Zetsu {
 
                 labelMap.putIfAbsent(command.getLabel(), new ArrayList<>());
                 labelMap.get(command.getLabel()).addAll(commands);
-//                labelMap.get(command.getLabel()).sort((o1, o2) -> o2.getMethod().getParameterCount() - o1.getMethod().getParameterCount());
+//                labelMap.get(command.getLabel()).sort((o1, o2) -> o1.getMethod().getParameterCount() - o2.getMethod().getParameterCount());
             }
         }
     }

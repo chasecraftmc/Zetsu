@@ -32,4 +32,9 @@ public class TestPlugin extends JavaPlugin {
         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', args));
     }
 
+    @Command(labels = {"broadcast"}, description = "idk", async = false)
+    public void executeBCs(CommandSender sender, String args) {
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', args));
+    }
+
 }

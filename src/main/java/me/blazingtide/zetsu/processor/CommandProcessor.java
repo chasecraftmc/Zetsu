@@ -27,7 +27,7 @@ public class CommandProcessor {
         final List<String> newArgs = Lists.newArrayList(args);
         newArgs.removeIf(str -> str.isEmpty() || str.trim().isEmpty());
 
-        for (int i = newArgs.size(); i > 0; i--) {
+        for (int i = newArgs.size(); i >= 0; i--) {
             String sentWithLabel = String.join(" ", newArgs.subList(0, i));
 
             for (CachedCommand cmd : cmds) {
