@@ -1,6 +1,8 @@
 package me.blazingtide.zetsu;
 
 import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.parameter.Default;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,7 +17,7 @@ public class TestPlugin extends JavaPlugin {
     }
 
     @Command(labels = {"run test"}, description = "idk", async = true)
-    public void execute(CommandSender sender, String args) {
+    public void execute(CommandSender sender, @Default("IDK") @Param("Arguments") String args) {
         sender.sendMessage(ChatColor.BLUE + "YOU RAN THIS COMMAND YAY! (ARGS: " + args + ")");
     }
 

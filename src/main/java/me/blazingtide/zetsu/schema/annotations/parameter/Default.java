@@ -1,4 +1,4 @@
-package me.blazingtide.zetsu.schema.annotations;
+package me.blazingtide.zetsu.schema.annotations.parameter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE_PARAMETER)
-public @interface Param {
+@Target(ElementType.PARAMETER)
+public @interface Default {
 
-    String value(); //The help message
+    String value();
 
 }

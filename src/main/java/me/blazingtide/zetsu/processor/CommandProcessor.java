@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import me.blazingtide.zetsu.Zetsu;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
 import me.blazingtide.zetsu.schema.CachedCommand;
-import me.blazingtide.zetsu.schema.annotations.Param;
+import me.blazingtide.zetsu.schema.annotations.parameter.Param;
 import me.blazingtide.zetsu.schema.annotations.Permissible;
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -87,7 +86,6 @@ public class CommandProcessor {
 
                 final ParameterAdapter<?> adapter = zetsu.getParameterAdapters().get(parameter.getType());
 
-                System.out.println("param method: " + (method.getParameterCount() - 1) + " <-> i: " + (i + 1));
                 if (parameter.getType() == String.class && method.getParameterCount() - 1 == i + 1) {
                     for (int j = i; j < args.length; j++) {
                         strBuilder.append(" ").append(args[j]);
