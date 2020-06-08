@@ -65,14 +65,19 @@ public class CommandProcessor {
                 return;
             }
 
-            if ((method.getParameterCount() - 1) < args.length) {
+            if ((method.getParameterCount() - 1) > args.length) {
                 sendRequiredArgsMessage(sender, method, command.getArgs(), command.getLabel());
                 return;
             }
 
             objects[0] = sender; //The first parameter is always the sender
 
+            StringBuilder strBuilder = new StringBuilder(); //If the parameter is a string and is the last param in the method then we concat the arguments.
             for (int i = 0; i < args.length; i++) {
+                if ((method.getParameterCount()) <= (i + 1)) {
+                    continue;
+                }
+
                 final Parameter parameter = method.getParameters()[i + 1];
 
                 if (!zetsu.getParameterAdapters().containsKey(parameter.getType())) {
@@ -82,8 +87,15 @@ public class CommandProcessor {
 
                 final ParameterAdapter<?> adapter = zetsu.getParameterAdapters().get(parameter.getType());
 
+                sender.sendMessage(i + " <-> " + (method.getParameterCount()) + " <-> " + parameter.getType());
+                if (parameter.getType() == String.class && i == method.getParameterCount() - 1) {
+                    for (int j = i; j < args.length; j++) {
+                        strBuilder.append(" ").append(args[j]);
+                    }
+                }
+
                 try {
-                    objects[i + 1] = adapter.process(args[i]);
+                    objects[i + 1] = strBuilder.length() != 0 ? strBuilder.toString() : adapter.process(args[i]);
                 } catch (Exception e) {
                     adapter.processException(sender, args[i], e);
                     return;
