@@ -2,8 +2,10 @@ package me.blazingtide.zetsu.processor;
 
 import lombok.AllArgsConstructor;
 import me.blazingtide.zetsu.Zetsu;
-import me.blazingtide.zetsu.schema.CachedCommand;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
+import me.blazingtide.zetsu.schema.CachedCommand;
+import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.schema.annotations.Param;
 import me.blazingtide.zetsu.schema.annotations.Permissible;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.List;
 
 @AllArgsConstructor
@@ -60,6 +63,11 @@ public class CommandProcessor {
                 return;
             }
 
+            if ((method.getParameterCount() - 1) != args.length) {
+                sendRequiredArgsMessage(sender, method, command.getArgs(), command.getLabel());
+                return;
+            }
+
             objects[0] = sender; //The first parameter is always the sender
 
             for (int i = 0; i < args.length; i++) {
@@ -91,6 +99,25 @@ public class CommandProcessor {
         } else {
             runnable.run();
         }
+    }
+
+    public void sendRequiredArgsMessage(CommandSender sender, Method method, List<String> args, String label) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(ChatColor.RED).append("Invalid Usage: /").append(label).append(" ");
+
+        for (String arg : args) {
+            builder.append(arg).append(" ");
+        }
+
+        for (Parameter parameter : method.getParameters()) {
+            if (parameter.isAnnotationPresent(Param.class)) {
+                builder.append("<").append(parameter.getAnnotation(Param.class).value()).append("> ");
+            } else {
+                builder.append("<").append(parameter.getType().getSimpleName()).append("> ");
+            }
+        }
+
+        sender.sendMessage(builder.toString());
     }
 
 }

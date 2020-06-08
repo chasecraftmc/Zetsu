@@ -1,8 +1,8 @@
 package me.blazingtide.zetsu.processor.impl;
 
 import me.blazingtide.zetsu.Zetsu;
-import me.blazingtide.zetsu.schema.CachedCommand;
 import me.blazingtide.zetsu.processor.CommandProcessor;
+import me.blazingtide.zetsu.schema.CachedCommand;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,11 +25,15 @@ public class SpigotProcessor extends CommandProcessor implements CommandExecutor
         }
 
         //Just remove all of the subcommand stuff
-        for (int i = 0; i < found.getArgs().size(); i++) {
-            ArrayUtils.remove(args, i);
+        String[] newArgs = new String[]{};
+
+        for (int i = 0; i < args.length; i++) {
+            if (found.getArgs().size() < i) {
+                newArgs = (String[]) ArrayUtils.add(newArgs, args[i]);
+            }
         }
 
-        this.invoke(found, args, sender);
+        this.invoke(found, newArgs, sender);
         return false;
     }
 }
