@@ -14,7 +14,6 @@ import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.List;
 
 public class SpigotProcessor extends CommandProcessor implements CommandExecutor {
 
@@ -40,7 +39,7 @@ public class SpigotProcessor extends CommandProcessor implements CommandExecutor
 
         for (int i = 0; i < found.getArgs().size() + defaults; i++) {
             if (args.length > i) {
-                args = (String[]) ArrayUtils.remove(args, i);
+                args = (String[]) ArrayUtils.remove(args, 0);
             }
         }
 
