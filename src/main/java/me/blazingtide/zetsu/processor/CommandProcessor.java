@@ -4,18 +4,20 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import me.blazingtide.zetsu.Zetsu;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
+import me.blazingtide.zetsu.permissible.PermissibleAttachment;
 import me.blazingtide.zetsu.schema.CachedCommand;
 import me.blazingtide.zetsu.schema.annotations.parameter.Param;
-import me.blazingtide.zetsu.schema.annotations.Permissible;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class CommandProcessor {
@@ -53,10 +55,14 @@ public class CommandProcessor {
                 return;
             }
 
-            if (method.isAnnotationPresent(Permissible.class) && !sender.hasPermission(method.getAnnotation(Permissible.class).value())) {
-                //default mc no perm message :D
-                sender.sendMessage(ChatColor.RED + "&cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
-                return;
+            for (Class<? extends Annotation> aClass : zetsu.getPermissibleAttachments().keySet().stream().filter(method::isAnnotationPresent).collect(Collectors.toSet())) {
+                final Annotation annotation = method.getAnnotation(aClass);
+                final PermissibleAttachment<Annotation> attachment = getPermissibleAttachment(aClass);
+
+                if (!attachment.test(annotation, sender)) {
+                    attachment.onFail(sender, annotation);
+                    return;
+                }
             }
 
             if (method.getParameters()[0].getType() == Player.class && !(sender instanceof Player)) {
@@ -134,6 +140,10 @@ public class CommandProcessor {
         }
 
         sender.sendMessage(builder.toString());
+    }
+
+    public PermissibleAttachment<Annotation> getPermissibleAttachment(Class<? extends Annotation> clazz) {
+        return (PermissibleAttachment<Annotation>) zetsu.getPermissibleAttachments().get(clazz);
     }
 
 }

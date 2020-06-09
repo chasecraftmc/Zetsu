@@ -1,4 +1,4 @@
-package me.blazingtide.zetsu.schema.annotations;
+package me.blazingtide.zetsu.permissible.impl.permissible;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

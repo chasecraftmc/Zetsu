@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import lombok.Getter;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
 import me.blazingtide.zetsu.adapters.defaults.*;
+import me.blazingtide.zetsu.permissible.PermissibleAttachment;
 import me.blazingtide.zetsu.processor.bukkit.BukkitCommand;
 import me.blazingtide.zetsu.processor.impl.SpigotProcessor;
 import me.blazingtide.zetsu.schema.CachedCommand;
@@ -15,10 +16,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ public class Zetsu {
     //Storing labels && commands associated with the label is faster than looping through all of the labels for no reason.
     private final Map<String, List<CachedCommand>> labelMap = Maps.newHashMap();
     private final Map<Class<?>, ParameterAdapter<?>> parameterAdapters = Maps.newConcurrentMap(); //Multithreading :D
+    private final Map<Class<? extends Annotation>, PermissibleAttachment<? extends Annotation>> permissibleAttachments = Maps.newConcurrentMap();
     private final SpigotProcessor processor = new SpigotProcessor(this);
     private CommandMap commandMap = getCommandMap();
 
@@ -53,6 +55,10 @@ public class Zetsu {
 
     public <T> void registerParameterAdapter(Class<T> clazz, ParameterAdapter<T> adapter) {
         parameterAdapters.putIfAbsent(clazz, adapter);
+    }
+
+    public <T extends Annotation> void registerPermissibleAttachment(Class<T> clazz, PermissibleAttachment<T> attachment) {
+        permissibleAttachments.putIfAbsent(clazz, attachment);
     }
 
     private void registerCommand(Object object) {
