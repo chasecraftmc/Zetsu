@@ -5,6 +5,8 @@ import lombok.Getter;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
 import me.blazingtide.zetsu.adapters.defaults.*;
 import me.blazingtide.zetsu.permissible.PermissibleAttachment;
+import me.blazingtide.zetsu.permissible.impl.permissible.BukkitPermissionAttachment;
+import me.blazingtide.zetsu.permissible.impl.permissible.Permissible;
 import me.blazingtide.zetsu.processor.bukkit.BukkitCommand;
 import me.blazingtide.zetsu.processor.impl.SpigotProcessor;
 import me.blazingtide.zetsu.schema.CachedCommand;
@@ -45,6 +47,8 @@ public class Zetsu {
         registerParameterAdapter(Integer.class, new IntegerTypeAdapter());
         registerParameterAdapter(Double.class, new DoubleTypeAdapter());
         registerParameterAdapter(Boolean.class, new BooleanTypeAdapter());
+
+        registerPermissibleAttachment(Permissible.class, new BukkitPermissionAttachment());
     }
 
     public void registerCommands(Object... objects) {
