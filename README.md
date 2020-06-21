@@ -24,6 +24,7 @@ public void execute(CommandSender sender, String exampleString) {
 }
 
 @Command(labels = {"example subcommand"})
+@Permissible("permission.admin") //Player requires the permission node "permission.admin" to perform this command
 public void executeSubCommand(Player player) { //Player only command
     player.sendMessage("You're a player!");
 } 
