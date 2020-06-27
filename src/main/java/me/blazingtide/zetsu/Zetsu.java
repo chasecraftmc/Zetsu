@@ -12,11 +12,11 @@ import me.blazingtide.zetsu.processor.bukkit.BukkitCommand;
 import me.blazingtide.zetsu.processor.impl.SpigotProcessor;
 import me.blazingtide.zetsu.schema.CachedCommand;
 import me.blazingtide.zetsu.schema.annotations.Command;
+import me.blazingtide.zetsu.tabcomplete.TabCompleteHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.annotation.Annotation;
@@ -35,6 +35,7 @@ public class Zetsu {
     private final Map<Class<?>, ParameterAdapter<?>> parameterAdapters = Maps.newConcurrentMap(); //Multithreading :D
     private final Map<Class<? extends Annotation>, PermissibleAttachment<? extends Annotation>> permissibleAttachments = Maps.newConcurrentMap();
     private final SpigotProcessor processor = new SpigotProcessor(this);
+    private final TabCompleteHandler tabCompleteHandler = new TabCompleteHandler(this);
     private CommandMap commandMap = getCommandMap();
 
     private final JavaPlugin plugin;
@@ -84,7 +85,7 @@ public class Zetsu {
                 org.bukkit.command.Command cmd = commandMap.getCommand(command.getLabel());
 
                 if (cmd == null) {
-                    BukkitCommand bukkitCommand = new BukkitCommand(command.getLabel(), processor);
+                    BukkitCommand bukkitCommand = new BukkitCommand(command.getLabel(), processor, tabCompleteHandler);
                     bukkitCommand.setDescription(command.getDescription());
 
                     commandMap.register(fallbackPrefix, bukkitCommand);

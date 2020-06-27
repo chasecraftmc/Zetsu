@@ -3,7 +3,9 @@ package me.blazingtide.zetsu.tabcomplete;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import me.blazingtide.zetsu.Zetsu;
+import me.blazingtide.zetsu.tabcomplete.listener.TabCompleteListener;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,9 @@ public class TabCompleteHandler {
     private final Map<String, List<String>> subcommandCache = Maps.newHashMap(); //Instead of looping every time, we store the sub commands and loop ONCE. (under the impression sub commands won't be created mid runtime)
 
     private final Zetsu zetsu;
+
+    @Getter
+    private final TabCompleteListener listener = new TabCompleteListener(this, zetsu.getProcessor());
 
     public Set<String> request(String command) {
         return Sets.newHashSet();
