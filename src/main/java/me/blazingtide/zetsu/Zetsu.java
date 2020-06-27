@@ -28,6 +28,7 @@ import java.util.Map;
 @Getter
 public class Zetsu {
 
+    public static String FALLBACK_PREFIX = "zetsu";
     public static String CMD_SPLITTER = " "; //Splitter for commands / arguments
 
     //Storing labels && commands associated with the label is faster than looping through all of the labels for no reason.
@@ -89,7 +90,7 @@ public class Zetsu {
 
                 labelMap.putIfAbsent(command.getLabel(), new ArrayList<>());
                 labelMap.get(command.getLabel()).addAll(commands);
-//                labelMap.get(command.getLabel()).sort((o1, o2) -> o1.getMethod().getParameterCount() - o2.getMethod().getParameterCount());
+                labelMap.get(command.getLabel()).sort((o1, o2) -> o1.getMethod().getParameterCount() - o2.getMethod().getParameterCount());
             }
         }
     }
@@ -97,17 +98,16 @@ public class Zetsu {
     private CommandMap getCommandMap() {
         final PluginManager manager = Bukkit.getPluginManager();
 
-        if (manager instanceof SimplePluginManager) {
-            try {
-                Field field = manager.getClass().getDeclaredField("commandMap");
+        try {
+            Field field = manager.getClass().getDeclaredField("commandMap");
 
-                field.setAccessible(true);
+            field.setAccessible(true);
 
-                return (CommandMap) field.get(manager);
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+            return (CommandMap) field.get(manager);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 
