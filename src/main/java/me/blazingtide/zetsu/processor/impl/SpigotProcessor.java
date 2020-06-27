@@ -1,5 +1,6 @@
 package me.blazingtide.zetsu.processor.impl;
 
+import com.google.common.collect.Lists;
 import me.blazingtide.zetsu.Zetsu;
 import me.blazingtide.zetsu.processor.CommandProcessor;
 import me.blazingtide.zetsu.schema.CachedCommand;
@@ -14,8 +15,11 @@ import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 
 public class SpigotProcessor extends CommandProcessor implements CommandExecutor {
+
+    public static int MAX_ELEMENTS_HELP_PAGE = 10; //Public & not final just incase someone wants to change this in the future.
 
     public SpigotProcessor(Zetsu zetsu) {
         super(zetsu);
@@ -26,8 +30,16 @@ public class SpigotProcessor extends CommandProcessor implements CommandExecutor
         final CachedCommand found = this.find(label, args);
 
         if (found == null) {
-            sendHelpMessage(label, sender);
-//            sender.sendMessage(ChatColor.RED + "Library Error. (Command not found)");
+            int page = 1;
+
+            if (args.length != 0) {
+                try {
+                    page = Integer.parseInt(args[0]);
+                } catch (NumberFormatException ignored) {
+                } //ignore
+            }
+
+            sendHelpMessage(label, page, sender);
             return false;
         }
 
@@ -47,7 +59,9 @@ public class SpigotProcessor extends CommandProcessor implements CommandExecutor
         return false;
     }
 
-    private void sendHelpMessage(String label, CommandSender sender) {
+    private void sendHelpMessage(String label, int page, CommandSender sender) {
+        final ArrayList<String> commands = Lists.newArrayList();
+
         sender.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "----------------------------------------");
         sender.sendMessage(ChatColor.GOLD + StringUtils.capitalize(label) + ChatColor.GRAY + " -" + ChatColor.WHITE + " (Command Help)");
         sender.sendMessage(" ");
@@ -66,11 +80,23 @@ public class SpigotProcessor extends CommandProcessor implements CommandExecutor
                 }
             }
 
-            sender.sendMessage(" " + ChatColor.YELLOW + "/" + label + " " + String.join(" ", command.getArgs()) + " " + builder.toString().trim() + ChatColor.GRAY + " - " + ChatColor.WHITE + command.getDescription());
+            commands.add(" " + ChatColor.YELLOW + "/" + label + " " + String.join(" ", command.getArgs()) + " " + builder.toString().trim() + ChatColor.GRAY + " - " + ChatColor.WHITE + command.getDescription());
         }
 
+        int start = (page - 1) * MAX_ELEMENTS_HELP_PAGE;
+        int end = start + MAX_ELEMENTS_HELP_PAGE;
+
+        for (int i = start; i < end; i++) {
+            if (commands.size() <= i) {
+                continue;
+            }
+            sender.sendMessage(commands.get(i));
+        }
+
+        int maxPage = commands.size() / MAX_ELEMENTS_HELP_PAGE + 1;
+
         sender.sendMessage(" ");
-        sender.sendMessage(ChatColor.GOLD + "You're on page " + ChatColor.WHITE + "1" + ChatColor.GOLD + " of " + ChatColor.WHITE + "1" + ChatColor.GOLD + ".");
+        sender.sendMessage(ChatColor.GOLD + "You're on page " + ChatColor.WHITE + page + ChatColor.GOLD + " of " + ChatColor.WHITE + maxPage + ChatColor.GOLD + ".");
         sender.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "----------------------------------------");
     }
 
