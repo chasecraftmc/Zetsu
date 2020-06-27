@@ -85,7 +85,7 @@ public class Zetsu {
                     BukkitCommand bukkitCommand = new BukkitCommand(command.getLabel(), processor);
                     bukkitCommand.setDescription(command.getDescription());
 
-                    commandMap.register("zetsu", bukkitCommand);
+                    commandMap.register(FALLBACK_PREFIX, bukkitCommand);
                 }
 
                 labelMap.putIfAbsent(command.getLabel(), new ArrayList<>());
