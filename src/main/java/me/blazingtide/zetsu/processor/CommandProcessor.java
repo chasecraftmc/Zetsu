@@ -45,7 +45,7 @@ public class CommandProcessor {
     }
 
     //The args is for the parameter, IGNORE the subcommand type args
-    public void invoke(CachedCommand command, String[] args, CommandSender sender) {
+    protected void invoke(CachedCommand command, String[] args, CommandSender sender) {
         final Runnable runnable = () -> {
             final Method method = command.getMethod();
             final Object[] objects = new Object[method.getParameterCount()];
@@ -121,7 +121,7 @@ public class CommandProcessor {
         }
     }
 
-    public void sendRequiredArgsMessage(CommandSender sender, Method method, List<String> args, String label) {
+    private void sendRequiredArgsMessage(CommandSender sender, Method method, List<String> args, String label) {
         final StringBuilder builder = new StringBuilder();
         builder.append(ChatColor.RED).append("Invalid Usage: /").append(label).append(" ");
 
@@ -142,7 +142,7 @@ public class CommandProcessor {
         sender.sendMessage(builder.toString());
     }
 
-    public PermissibleAttachment<Annotation> getPermissibleAttachment(Class<? extends Annotation> clazz) {
+    private PermissibleAttachment<Annotation> getPermissibleAttachment(Class<? extends Annotation> clazz) {
         return (PermissibleAttachment<Annotation>) zetsu.getPermissibleAttachments().get(clazz);
     }
 
