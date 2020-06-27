@@ -1,6 +1,8 @@
 package me.blazingtide.zetsu.tabcomplete.listener;
 
 import lombok.AllArgsConstructor;
+import me.blazingtide.zetsu.processor.CommandProcessor;
+import me.blazingtide.zetsu.schema.CachedCommand;
 import me.blazingtide.zetsu.tabcomplete.TabCompleteHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,16 +14,20 @@ import java.util.List;
 public class TabCompleteListener implements TabCompleter {
 
     private final TabCompleteHandler handler;
+    private final CommandProcessor processor;
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command ignored, String label, String[] args) {
         //Sub commands first.
 
-        if (args.length == 0) { //It's a bit more difficult to process tab completes for a command like /<command> <sub1> <sub2> <arguments>, so it's harder to tab complete <sub2>
+        final CachedCommand command = processor.find(label, args);
 
-            return null;
+        //It's a bit more difficult to process tab completes for a command like /<command> <sub1> <sub2> <arguments>, so it's harder to tab complete <sub2>
+        if (args.length == command.getArgs().size()) {
+            final List<String> toReturn = handler.requestSubcommands(label);
+            return toReturn.isEmpty() ? null : toReturn;
         }
 
-        return null;
+        return null; //Will finish up later
     }
 }

@@ -4,13 +4,11 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import me.blazingtide.zetsu.Zetsu;
-import me.blazingtide.zetsu.schema.CachedCommand;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
