@@ -2,6 +2,7 @@ package me.blazingtide.zetsu;
 
 import com.google.common.collect.Maps;
 import lombok.Getter;
+import lombok.Setter;
 import me.blazingtide.zetsu.adapters.ParameterAdapter;
 import me.blazingtide.zetsu.adapters.defaults.*;
 import me.blazingtide.zetsu.permissible.PermissibleAttachment;
@@ -27,8 +28,6 @@ import java.util.Map;
 
 @Getter
 public class Zetsu {
-
-    public static String FALLBACK_PREFIX = "zetsu";
     public static String CMD_SPLITTER = " "; //Splitter for commands / arguments
 
     //Storing labels && commands associated with the label is faster than looping through all of the labels for no reason.
@@ -39,6 +38,9 @@ public class Zetsu {
     private CommandMap commandMap = getCommandMap();
 
     private final JavaPlugin plugin;
+
+    @Setter
+    private String fallbackPrefix = "zetsu";
 
     public Zetsu(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -85,7 +87,7 @@ public class Zetsu {
                     BukkitCommand bukkitCommand = new BukkitCommand(command.getLabel(), processor);
                     bukkitCommand.setDescription(command.getDescription());
 
-                    commandMap.register(FALLBACK_PREFIX, bukkitCommand);
+                    commandMap.register(fallbackPrefix, bukkitCommand);
                 }
 
                 labelMap.putIfAbsent(command.getLabel(), new ArrayList<>());
