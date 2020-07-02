@@ -100,6 +100,11 @@ public class CommandProcessor {
 
                 try {
                     objects[i + 1] = strBuilder.length() != 0 ? strBuilder.toString().trim() : adapter.process(args[i].trim());
+
+                    if (objects[i + 1] == null) {
+                        adapter.processException(sender, args[i], new NullPointerException());
+                        return;
+                    }
                 } catch (Exception e) {
                     adapter.processException(sender, args[i], e);
                     return;
