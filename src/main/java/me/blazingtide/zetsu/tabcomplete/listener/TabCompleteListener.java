@@ -22,6 +22,10 @@ public class TabCompleteListener implements TabCompleter {
 
         final CachedCommand command = processor.find(label, args);
 
+        if (command == null) {
+            return null; //should not happen but just incase
+        }
+
         //It's a bit more difficult to process tab completes for a command like /<command> <sub1> <sub2> <arguments>, so it's harder to tab complete <sub2>
         if (args.length == command.getArgs().size()) {
             final List<String> toReturn = handler.requestSubcommands(label);
