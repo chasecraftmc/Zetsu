@@ -13,6 +13,6 @@ public class BukkitPermissionAttachment implements PermissibleAttachment<Permiss
 
     @Override
     public void onFail(CommandSender sender, Permissible annotation) {
-        sender.sendMessage(ChatColor.RED + "&cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
+        sender.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
     }
 }
